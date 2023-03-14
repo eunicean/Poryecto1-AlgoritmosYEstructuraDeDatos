@@ -51,7 +51,11 @@ public class Token {
 		return matchFound;
 	}
 
-	
+	/**
+	 * Method that gets the token indicating what type of statement was given in the code
+	 * @param code String that contains the code that it were read
+	 * @return integer with the number of the token of the code given
+	 */
 	public int getToken(String code) {
 		for(int i = 0; i < Tokens.length ; i++) {
 			if(validatePattern(Tokens[i],code)) {
