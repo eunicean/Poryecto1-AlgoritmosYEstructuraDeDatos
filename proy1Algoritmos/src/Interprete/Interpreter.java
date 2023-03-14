@@ -1,7 +1,7 @@
 /**
  * Object that simulates the interpreter of the language LISP 
  * @author Eunice Mata - 21231
- * @author Samantha Bhor - 
+ * @author Samantha Bhor - 22545
  */
 
 package Interprete;
