@@ -9,5 +9,11 @@ package Interprete;
 import java.util.*;
 
 public class Interpreter {
-
+	private HashMap<String, Integer> Variables;
+	private HashMap<String, String> Functions;
+	
+	public Interpreter() {
+		Variables = new HashMap<String, Integer>();
+		Functions = new HashMap<String, String>();
+	}
 }

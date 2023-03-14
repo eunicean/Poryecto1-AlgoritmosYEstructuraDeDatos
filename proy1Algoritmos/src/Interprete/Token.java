@@ -1,5 +1,5 @@
 /**
- * Method that simulates the token that indicates the what kind or type of code is given by the expression
+ * Object that simulates the token that indicates the what kind or type of code is given by the expression
  * @author Eunice Mata - 21231
  * @author Samantha Bhor - 
  * {@link} Documentation https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
@@ -35,7 +35,7 @@ public class Token {
 	private String combStatement = "^[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)]$";
 	private String functionStatement = "^[(][ ]*([a-z]|[a-z,0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*(([a-z]+|[0-9]+)[ ]*)*[)]$";
 	
-	String[] Tokens = {additionStatement,substractractionStatement,multiplicationStatement,divitionStatement,quoteStatement,defunStatement,defund2Statement,setqStatement,atomStatement,listStatement,equalStatement,smallerThanStatement,greaterThanStatement,condStatement,combStatement,functionStatement};
+	private String[] Tokens = {additionStatement,substractractionStatement,multiplicationStatement,divitionStatement,quoteStatement,defunStatement,defund2Statement,setqStatement,atomStatement,listStatement,equalStatement,smallerThanStatement,greaterThanStatement,condStatement,combStatement,functionStatement};
 	
 	
 	/**
@@ -51,7 +51,11 @@ public class Token {
 		return matchFound;
 	}
 
-	
+	/**
+	 * Method that gets the token indicating what type of statement was given in the code
+	 * @param code String that contains the code that it were read
+	 * @return integer with the number of the token of the code given
+	 */
 	public int getToken(String code) {
 		for(int i = 0; i < Tokens.length ; i++) {
 			if(validatePattern(Tokens[i],code)) {
