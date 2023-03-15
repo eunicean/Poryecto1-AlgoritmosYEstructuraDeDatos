@@ -6,12 +6,12 @@
 package Operations;
 
 public class AssigmentProcess implements IOperationsfile{
-	private String key;
+	private String Type;
 	private String result;
 	
 	@Override
-	public String getKey() {
-		return this.key;
+	public String getType() {
+		return this.Type;
 	}
 	
 	@Override
@@ -21,13 +21,13 @@ public class AssigmentProcess implements IOperationsfile{
 	
 	@Override
 	public String maketheoperations() {
-		return  "La Variable dada : " + key + " está asignada al valor " + result;
+		return  "La Variable dada : " + Type + " está asignada al valor " + result;
 
 	}
 	
 	@Override
-	public void Results(String key, String result) {
-		this.key = key;
+	public void Results(String Type, String result) {
+		this.Type = Type;
 		this.result = result;
 	}
 }
