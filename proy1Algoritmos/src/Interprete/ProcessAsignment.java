@@ -6,6 +6,26 @@
  */
 package Interprete;
 
-public class ProcessAsignment {
+import Operations.IOperationsfile;
 
+public class ProcessAsignment {
+	public IOperationsfile additionProcessAssignment(String code) {
+		return null;
+	}
+	
+	public IOperationsfile substractionProcessAssignment(String code) {
+		return null;
+	}
+	
+	public IOperationsfile multiplicationProcessAssignment(String code) {
+		return null;
+	}
+	
+	public IOperationsfile divitionProcessAssignment(String code) {
+		return null;
+	}
+	
+	public IOperationsfile variableAssignment(String code) {
+		return null;
+	}
 }
