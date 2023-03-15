@@ -12,30 +12,30 @@ import java.util.regex.*;
 
 public class Token {
 	//Arithmetic processes
-	private String additionStatement = "^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
-	private String substractractionStatement = "^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
-	private String multiplicationStatement = "^[(][ ]*[*][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
-	private String divitionStatement = "^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
+	private static String additionStatement = "^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
+	private static String substractractionStatement = "^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
+	private static String multiplicationStatement = "^[(][ ]*[*][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
+	private static String divitionStatement = "^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$";
 	//Quote
-	private String quoteStatement = "^[(][ ]*(quote |')+([+]|[-]|[*]|[/]|[(]|[)]|[0-9]|[a-z]|[defun]|[ ])*[)]$";
+	private static String quoteStatement = "^[(][ ]*(quote |')+([+]|[-]|[*]|[/]|[(]|[)]|[0-9]|[a-z]|[defun]|[ ])*[)]$";
 	//Defun
-	private String defunStatement = "^[(][ ]*defun[ ]+([a-z]|[a-z,0-9]+)[ ]+([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))[)]$";
-	private String defund2Statement = "^[(][ ]*defun[ ]+([a-z]|[a-z,0-9]+)[ ]+([(]([a-z,0-9][ ]*)+[)][ ]*([(]cond.*[)]))[)]$";
+	private static String defunStatement = "^[(][ ]*defun[ ]+([a-z]|[a-z,0-9]+)[ ]+([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))[)]$";
+	private static String defund2Statement = "^[(][ ]*defun[ ]+([a-z]|[a-z,0-9]+)[ ]+([(]([a-z,0-9][ ]*)+[)][ ]*([(]cond.*[)]))[)]$";
 	//Setq
-	private String setqStatement = "^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$";
+	private static String setqStatement = "^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$";
 	//Predicados
-	private String atomStatement = "^[(][ ]*atom[ ]+((((\\\"[a-z]\\\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)|[']([(]+[ ]*(((\\\"[a-z]\\\")+|[0-9]+|(NIL)+|(T)+)[ ]*)+[)]))[)]$";
-	private String listStatement = "^[(][ ]*list[ ]*(((\\\"[a-z]\\\")*|[0-9]*|(NIL)*|(T)*)[ ]*)+[)]$";
-	private String equalStatement = "^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$";
-	private String smallerThanStatement = "^[(][ ]*[<][ ]+([a-z]+|[0-9]+)+[ ]+([a-z]+|[0-9]+)+[ ]*[)]$";
-	private String greaterThanStatement = "[(][ ]*[>][ ]+([a-z]+|[0-9]+)+[ ]+([a-z]+|[0-9]+)+[ ]*[)]$";
+	private static String atomStatement = "^[(][ ]*atom[ ]+((((\\\"[a-z]\\\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)|[']([(]+[ ]*(((\\\"[a-z]\\\")+|[0-9]+|(NIL)+|(T)+)[ ]*)+[)]))[)]$";
+	private static String listStatement = "^[(][ ]*list[ ]*(((\\\"[a-z]\\\")*|[0-9]*|(NIL)*|(T)*)[ ]*)+[)]$";
+	private static String equalStatement = "^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$";
+	private static String smallerThanStatement = "^[(][ ]*[<][ ]+([a-z]+|[0-9]+)+[ ]+([a-z]+|[0-9]+)+[ ]*[)]$";
+	private static String greaterThanStatement = "[(][ ]*[>][ ]+([a-z]+|[0-9]+)+[ ]+([a-z]+|[0-9]+)+[ ]*[)]$";
 	//Cond
-	private String condStatement = "^[(]cond [(]([(].*[)])[)]$";
+	private static String condStatement = "^[(]cond [(]([(].*[)])[)]$";
 	//step of parameters
-	private String combStatement = "^[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)]$";
-	private String functionStatement = "^[(][ ]*([a-z]|[a-z,0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*(([a-z]+|[0-9]+)[ ]*)*[)]$";
+	private static String combStatement = "^[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)]$";
+	private static String functionStatement = "^[(][ ]*([a-z]|[a-z,0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*(([a-z]+|[0-9]+)[ ]*)*[)]$";
 	
-	private String[] Tokens = {additionStatement,substractractionStatement,multiplicationStatement,divitionStatement,quoteStatement,defunStatement,defund2Statement,setqStatement,atomStatement,listStatement,equalStatement,smallerThanStatement,greaterThanStatement,condStatement,combStatement,functionStatement};
+	private static String[] Tokens = {additionStatement,substractractionStatement,multiplicationStatement,divitionStatement,quoteStatement,defunStatement,defund2Statement,setqStatement,atomStatement,listStatement,equalStatement,smallerThanStatement,greaterThanStatement,condStatement,combStatement,functionStatement};
 	
 	
 	/**
@@ -44,7 +44,7 @@ public class Token {
 	 * @param code String that contains the code that it wants to compare and match.
 	 * @return Boolean with true if it matches, false if not.
 	 */
-	public boolean validatePattern(String ToCompare, String code) {
+	public static boolean validatePattern(String ToCompare, String code) {
 		Pattern pattern = Pattern.compile(ToCompare, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(code);
 		boolean matchFound = matcher.find();
@@ -56,7 +56,7 @@ public class Token {
 	 * @param code String that contains the code that it were read
 	 * @return integer with the number of the token of the code given
 	 */
-	public int getToken(String code) {
+	public static int getToken(String code) {
 		for(int i = 0; i < Tokens.length ; i++) {
 			if(validatePattern(Tokens[i],code)) {
 				return i;
