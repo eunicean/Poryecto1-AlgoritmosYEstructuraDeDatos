@@ -21,4 +21,13 @@ public class AssigmentProcess implements IOperationsfile{
 		this.Type = Type;
 		this.result = result;
 	}
+	@Override
+	public String getType() {
+		return Type;
+	}
+
+	@Override
+	public String getResult() {
+		return result;
+	}
 }

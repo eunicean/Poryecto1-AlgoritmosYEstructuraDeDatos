@@ -9,7 +9,15 @@ public class DefunProcess implements IOperationsfile{
 	private String Type;
 	private String result;
 	
-	
+	@Override
+	public String getType() {
+		return Type;
+	}
+
+	@Override
+	public String getResult() {
+		return result;
+	}
 	@Override
 	public String maketheoperations() {
 		return "La función dada" + Type + " se da con el valor : " + result;

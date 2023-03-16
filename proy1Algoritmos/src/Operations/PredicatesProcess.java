@@ -9,7 +9,15 @@ public class PredicatesProcess implements IOperationsfile{
 	private String Type;
 	private String result;
 	
+	@Override
+	public String getType() {
+		return Type;
+	}
 
+	@Override
+	public String getResult() {
+		return result;
+	}
 	@Override
 	public String maketheoperations() {
 		return "El resultado de la operación final es " + Type + " es: " + result;

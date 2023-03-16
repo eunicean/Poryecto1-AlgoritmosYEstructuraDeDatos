@@ -680,27 +680,218 @@ public class Interpreter {
 	    if (matcher.find()) {
 	    	functionName = matcher.group().replaceFirst("defun", " ").trim();
 	    }
-	     
-	    Pattern patternValue = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))", Pattern.CASE_INSENSITIVE); //
+	    
+	    Pattern patternValue = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))", Pattern.CASE_INSENSITIVE); 
+	    matcher = patternValue.matcher(code.substring(0, code.length()-1));
 	    Pattern patternValue2 = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(]cond.*[)]))", Pattern.CASE_INSENSITIVE); //
-	    matcher = patternValue.matcher(expresion.substring(0, expresion.length()-1));
-	    Matcher matcher2 = patternValue2.matcher(expresion.substring(0, expresion.length()-1));
+	    Matcher matcher2 = patternValue2.matcher(code.substring(0, code.length()-1));
 	     
 	    if (matcher.find()) {
 	    	functionValue = matcher.group();
 	    }else if(matcher2.find()) {
 	    	functionValue = matcher2.group();
 	    }
-	     Functions.put(functionName, functionValue); //adding the function to the map for funtions
+	    Functions.put(functionName, functionValue); //adding the function to the map for functions
 
-	    IOperationsfile Result = new ArithmeticProcess();
+	    IOperationsfile Result = new DefunProcess();
 		Result.Results(functionName, functionValue);
 		return Result;	
 	}
-	public IOperationsfile functionAssignmentProcess(String code) {
-		return null;
-	}
 	public IOperationsfile condAssignmentProcess(String code) {
-		return null;
+		String total="";
+		boolean resultCond = false;
+		code = code.substring(6, code.length()-1);
+		
+		Pattern pattern = Pattern.compile("[(][(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)][ ][(]([a-z]+|[0-9]+|[ ]+|[(]+|[)]+|[+]+|[-]+|[*]+|[*]+)+[)][)]", Pattern.CASE_INSENSITIVE);
+		Pattern patternNumber = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+		Pattern patternVariable = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternNumberVariable = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(code);
+		
+		while (matcher.find() && !resultCond) {
+			Pattern patternCond = Pattern.compile("((([(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)])|([t])))", Pattern.CASE_INSENSITIVE);
+			Pattern patternCont = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])", Pattern.CASE_INSENSITIVE);
+			Matcher matcherCond = patternCond.matcher(matcher.group().trim());
+			Matcher matcherCont = patternCont.matcher(matcher.group().trim());
+			
+			while(matcherCond.find() && !resultCond) {
+				
+				if(matcherCont.find() && !resultCond) {
+					
+					Matcher matcherVarNum = patternNumberVariable.matcher(matcherCond.group());
+					
+					char operator;
+					
+					if(!matcherCond.group().equals("t")) {
+						operator = matcherCond.group().trim().charAt(1);
+					}else {
+						operator = matcherCond.group().trim().charAt(0);
+					}
+				
+					int cont = 1;
+					int operand1 = 0, operand2 = 0;
+					
+				    while (matcherVarNum.find() && !matcherVarNum.group().equals("t")) {
+				    	
+				    	Matcher matcherNum = patternNumber.matcher(matcherVarNum.group().trim());
+				    	Matcher matcherVar = patternVariable.matcher(matcherVarNum.group().trim());
+				    	
+				    	
+						if(matcherNum.lookingAt()) {
+							if(cont == 1) {	    		
+					    		operand1 = Integer.parseInt(matcherNum.group().trim());
+					    	}else {
+					    		operand2 = Integer.parseInt(matcherNum.group().trim());
+					    	}
+						}else if(matcherVar.lookingAt()) {
+							if(Variables.containsKey(matcherVar.group())){
+								if(cont == 1) {	    		
+						    		operand1 = Variables.get(matcherVar.group().trim());
+						    	}else {
+						    		operand2 = Variables.get(matcherVar.group().trim());
+						    	}
+					    	}else {
+					    		IOperationsfile error = new ErrorProcess();
+					    		error.Results("VARIABLE", "Invalid variable");
+					    		return error;
+					    	}
+						}
+				    	cont ++;
+				    }
+					
+					switch(operator) {
+						case '=':
+							resultCond = (operand1 == operand2);
+							break;
+						
+						case '<':
+							resultCond = (operand1 < operand2);
+							break;
+							
+						case '>':
+							resultCond = (operand1 > operand2);
+							break;
+							
+						case 't':
+							resultCond = true;
+							break;
+							
+					}
+					
+					if(resultCond) {
+						Pattern patternFunc = Pattern.compile("([(][a-z]+[ ][(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)][)])");
+				    	Matcher matcherFunc = patternFunc.matcher(matcherCont.group());
+				    	
+				    	if(matcherFunc.find()) {
+				    		Pattern patternArithmetic = Pattern.compile("[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]");
+				    		Matcher matcherArithmetic = patternArithmetic.matcher(matcherFunc.group());
+				    		
+				    		if(matcherArithmetic.find()) {
+				    			String parcial = combVerifyingProcess(matcherArithmetic.group());
+					    		
+				    			Pattern patternName = Pattern.compile("[a-z]+[ ]");
+					    		Matcher matcherVar = patternName.matcher(matcherFunc.group());
+				    			
+				    			if(matcherVar.find()) {
+				    				String exp = "("+matcherVar.group()+" "+parcial+")";	
+								    String funcionResult = functionAssignmentProcess(exp).getResult();
+								 
+								    
+								    Pattern patternOperacion = Pattern.compile("[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]");
+							    	Matcher matcherOperacion = patternOperacion.matcher(matcherCont.group());
+							    	
+								    if(matcherOperacion.find()) {
+								    	Pattern patternGlobalVar = Pattern.compile("([a-z]+)");
+								    	Matcher matcherGlobalVar = patternGlobalVar.matcher(matcherCont.group());
+								    	
+								    	if(matcherGlobalVar.find()) {
+								    		int value = Variables.get(matcherGlobalVar.group());
+										    Variables.put(matcherGlobalVar.group(), value+1);
+									    	
+									    	String operacion = matcherOperacion.group()+funcionResult+")";
+										    total = combVerifyingProcess(operacion);
+								    	}
+								    }
+								    
+				    			}
+				    		}
+				    	}else{
+				    		total = combVerifyingProcess(matcherCont.group());
+				    	}
+					}
+				}
+				
+			}
+			
+		}
+		if(total.equals("")) {
+			total = "NIL";
+		}
+		IOperationsfile Result = new DefunProcess();
+		Result.Results("cond", total);
+		return Result;	
+	}
+	public IOperationsfile functionAssignmentProcess(String code) {
+	    String functionName = "",total = "";
+	    int cont = 0;
+		Pattern pattern = Pattern.compile("(([a-z]+[ ]*|[0-9]+[ ]*))", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(code);
+	    ArrayList<String> Parameters = new ArrayList<String>();
+	    ArrayList<String> Arguments = new ArrayList<String>();
+	    
+	    while(matcher.find()) {
+	    	if(cont==0) {
+	    		functionName = matcher.group().trim();
+	    	}else {
+	    		Parameters.add(matcher.group().trim());
+	    	}
+	    	
+	    	cont++;
+	    }
+	    
+	    if(Functions.containsKey(functionName)){
+	    	String funcExpresion = Functions.get(functionName);
+	    	Pattern patternArguments = Pattern.compile("([(]([a-z][ ]*)+[)])");
+	    	Matcher matcherArguments = patternArguments.matcher(funcExpresion);
+	    	
+	    	if(matcherArguments.find()) {
+	    		Pattern patternArgument = Pattern.compile("(([a-z])+)");
+	    		Matcher matcherArgument = patternArgument.matcher(matcherArguments.group());
+	    		
+	    		while(matcherArgument.find()) {
+	    			Arguments.add(matcherArgument.group().trim());
+	    		}
+	    	}
+	    	
+	    	if(Parameters.size()!=Arguments.size()) {
+	    		IOperationsfile error = new ErrorProcess();
+	    		error.Results("VARIABLE", "Invalid variable");
+	    		return error;
+	    	}else {
+	    		for(int i=0; i<Arguments.size(); i++) {
+	    			Variables.put(Arguments.get(i), Integer.parseInt(Parameters.get(i)));
+	    		}
+	    	}
+	    	
+	    	Pattern patternBody = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])");
+	    	Matcher matcherBody = patternBody.matcher(funcExpresion);
+	    	Pattern patternCond = Pattern.compile("([(]cond.*[)])");
+	    	Matcher matcherCond = patternCond.matcher(funcExpresion);
+	    	
+	    	if(matcherBody.find() && !matcherCond.find()) {
+	    		total = combVerifyingProcess(matcherBody.group());
+	    	}else {
+	    		total = condAssignmentProcess(matcherCond.group()).getResult();
+	    	}
+	    	
+    	}else {
+    		IOperationsfile error = new ErrorProcess();
+    		error.Results("VARIABLE", "Invalid variable");
+    		return error;
+    	}
+	    
+	    IOperationsfile Result = new DefunProcess();
+		Result.Results(functionName, total);
+		return Result;
 	}
 }
