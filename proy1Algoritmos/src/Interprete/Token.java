@@ -1,7 +1,7 @@
 /**
  * Object that simulates the token that indicates the what kind or type of code is given by the expression
  * @author Eunice Mata - 21231
- * @author Samantha Bhor - 
+ * @author Samantha Bhor - 22545
  * {@link} Documentation https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
  * {@link} examples https://www.w3schools.com/java/java_regex.asp
  */

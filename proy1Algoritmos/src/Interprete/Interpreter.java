@@ -32,52 +32,38 @@ public class Interpreter {
 		case 1:
 			return substractionProcessAssignment(code).maketheoperations();
 		case 2:
-			
-			break;
+			return multiplicationProcessAssignment(code).maketheoperations();
 		case 3:
-			
-			break;
+			return divitionProcessAssignment(code).maketheoperations();
 		case 4:
-			
-			break;
+			return quoteAssignmentProcess(code).maketheoperations();
 		case 5:
-			
-			break;
+			return defunAssignmentProcess(code).maketheoperations(); //there is two types of code for defun
 		case 6:
-			
-			break;
+			return defunAssignmentProcess(code).maketheoperations();
 		case 7:
-			
-			break;
+			return variableAssignmentProcess(code).maketheoperations(); //setq
 		case 8:
-			
-			break;
+			return atomAssignmentProcess(code).maketheoperations();
 		case 9:
-			
-			break;
+			return listAssignmentProcess(code).maketheoperations();
 		case 10:
-			
-			break;
+			return equalProcessAssignment(code).maketheoperations();
 		case 11:
-			
-			break;
+			return lesserThanAssignmentProcess(code).maketheoperations();
 		case 12:
-			
-			break;
+			return greaterThanAssignmentProcess(code).maketheoperations();
 		case 13:
-			
-			break;
+			return condAssignmentProcess(code).maketheoperations();
 		case 14:
-			
-			break;
+			return combAssignmentProcessResult(code).maketheoperations();
 		case 15:
-			
-			break;
+			return functionAssignmentProcess(code).maketheoperations();
 		default:
-			break;
+			IOperationsfile error = new ErrorProcess();
+			error.Results("EXPRESSION", "Invalid expression");
+			return error.maketheoperations();
 		}
-		
-		return null;
 	}
 	
 	/**
