@@ -11,6 +11,7 @@ public class main {
 		System.out.println("+-------------------------------+");
 		System.out.println("| Bienvenido al interprete LISP |");
 		System.out.println("+-------------------------------+");
+		ArrayList<String> dataRecolected = new ArrayList<String>();
 		int option = 0;
 		String data = "";
 		String code = "";
@@ -37,6 +38,7 @@ public class main {
 					Scanner myReader = new Scanner(myFile);
 					while (myReader.hasNextLine()) {
 				        data = myReader.nextLine();
+				        dataRecolected.add(data);
 				      }
 					myReader.close();
 					
@@ -44,8 +46,10 @@ public class main {
 					System.out.println("An error occurred.");
 				      e.printStackTrace();
 				}
-				System.out.println("Expression: " + data);
-				System.out.println(myInterpreterLISP.RunCode(data));
+				for(int i=0;i<dataRecolected.size();i++) {
+					System.out.println("Expression: " + dataRecolected.get(i));
+					System.out.println(myInterpreterLISP.RunCode(dataRecolected.get(i)));
+				}
 			}
 			else {
 				System.out.println("Ingrese una de las opciones dadas");

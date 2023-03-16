@@ -1,0 +1,40 @@
+Operaciones aritmeticas
+(+ 20 50)
+(+ 60 80 5 10)
+(- 10 8)
+(- 100 40)
+(* 5 4)
+(* 10 4 5)
+(/ 30 5)
+(/ 100 4 5)
+
+quote
+('(10 2))
+('x)
+(quote x)
+
+defun
+(defun prueba (x) (+ x 10))
+(defun mimirTime (no) (+ 8 no))
+
+setq
+(setq number1 115)
+(setq number2 10)
+
+predicados
+(atom (8))
+(atom '(3 1))
+(atom 3)
+
+(equal 10 10)
+(equal 1 2)
+
+(> 10 2)
+(< 10 2)
+
+(list 1 2 5 9)
+(list)
+
+conditions
+(cond ((= 0 10) (+ 10 10))((> 10 9) (+ 5 10)))
+(cond ((= 10 10) (+ 10 10))((> 10 15) (+ 5 10)))

@@ -12,7 +12,7 @@ public class AssigmentProcess implements IOperationsfile{
 	
 	@Override
 	public String maketheoperations() {
-		return  "La Variable dada : " + Type + " está asignada al valor " + result;
+		return Type + " : " + result;
 
 	}
 	

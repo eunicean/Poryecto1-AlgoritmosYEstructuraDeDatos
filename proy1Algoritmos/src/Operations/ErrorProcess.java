@@ -14,7 +14,7 @@ public class ErrorProcess implements IOperationsfile{
 	}
 	@Override
 	public String maketheoperations() {
-		return "Attention\n"+Type+"ERROR: "+result;
+		return "Attention\n"+Type+" ERROR: "+result;
 	}
 
 	@Override
