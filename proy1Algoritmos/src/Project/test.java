@@ -69,6 +69,11 @@ public class test {
 		assertEquals("El resultado de la operación final es de quote es: (1 2)", testInterpreter.RunCode(Code));
 	}
 	//defun tests
+	@Test
+	public void defun() {
+		String Code = "(defun prueba (y)(+ y 10))";
+		assertEquals("La función dada de prueba tiene asignado el valor (y)(+ y 10)", testInterpreter.RunCode(Code));
+	}
 	//setq test
 	@Test
 	public void assigmentVariable() {
@@ -84,5 +89,54 @@ public class test {
 		assertEquals("kk : 8", testInterpreter.RunCode(Code));
 	}
 	//predicates tests
+
+	@Test
+	public void list() {
+		String Code = "(setq kk 155)";
+		assertEquals("kk : 155", testInterpreter.RunCode(Code));
+
+		Code = "(setq kk 8)";
+		assertEquals("kk : 8", testInterpreter.RunCode(Code));
+	}
+
+	@Test
+	public void equal() {
+		String Code = "(equal 10 10)";
+		assertEquals("El resultado de la operación final es Equal es: True", testInterpreter.RunCode(Code));
+
+		Code = "(equal 10 1)";
+		assertEquals("El resultado de la operación final es Equal es: NIL", testInterpreter.RunCode(Code));
+	}
+	@Test
+	public void atom() {
+		String Code = "(atom 3)";
+		assertEquals("El resultado de la operación final es atom es: TRUE", testInterpreter.RunCode(Code));
+
+		Code = "(atom '(3 1))";
+		assertEquals("El resultado de la operación final es atom es: NIL", testInterpreter.RunCode(Code));
+	}
+	@Test
+	public void greaterthan() {
+		String Code = "(> 10 2)";
+		assertEquals("El resultado de la operación final es Mayor que es: TRUE", testInterpreter.RunCode(Code));
+	}
+	@Test
+	public void greaterthan2() {
+		String Code = "(< 10 2)";
+		assertEquals("El resultado de la operación final es Menor que es: NIL", testInterpreter.RunCode(Code));
+
+	}
+	@Test
+	public void lesserthan() {
+		String Code = "(> 10 2)";
+		assertEquals("El resultado de la operación final es Mayor que es: TRUE", testInterpreter.RunCode(Code));
+	}
+
+	@Test
+	public void lesserthan2() {
+		String Code = "(< 10 2)";
+		assertEquals("El resultado de la operación final es Menor que es: NIL", testInterpreter.RunCode(Code));
+
+	}
 	//conditionals cond tests
 }

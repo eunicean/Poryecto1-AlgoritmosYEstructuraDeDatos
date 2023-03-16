@@ -18,11 +18,10 @@ defun
 (defun mimirTime (no) (+ 8 no))
 
 setq
-(setq number1 115)
-(setq number2 10)
+(setq nr 115)
+(setq num 10)
 
 predicados
-(atom (8))
 (atom '(3 1))
 (atom 3)
 
