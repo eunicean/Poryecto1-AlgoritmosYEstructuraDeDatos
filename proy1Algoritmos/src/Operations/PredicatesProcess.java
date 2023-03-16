@@ -11,13 +11,13 @@ public class PredicatesProcess implements IOperationsfile{
 	
 	@Override
 	public String getType() {
-		return this.Type;
+		return Type;
 	}
+
 	@Override
 	public String getResult() {
-		return this.result;
+		return result;
 	}
-	
 	@Override
 	public String maketheoperations() {
 		return "El resultado de la operación final es " + Type + " es: " + result;

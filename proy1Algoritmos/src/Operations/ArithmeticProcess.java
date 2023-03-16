@@ -10,17 +10,8 @@ public class ArithmeticProcess implements IOperationsfile{
 	private String result;
 	
 	@Override
-	public String getType() {
-		return this.Type;
-	}
-	@Override
-	public String getResult() {
-		return this.result;
-	}
-	
-	@Override
 	public String maketheoperations() {
-		return "El resultado de la operación final es " + Type + " es: " + result;
+		return "El resultado de la operación " + Type + " es: " + result;
 
 	}
 	@Override
@@ -28,4 +19,14 @@ public class ArithmeticProcess implements IOperationsfile{
 		this.Type = Type;
 		this.result = result;
 	}
+	@Override
+	public String getType() {
+		return Type;
+	}
+	@Override
+	public String getResult() {
+		return result;
+	}
+	
+	
 }

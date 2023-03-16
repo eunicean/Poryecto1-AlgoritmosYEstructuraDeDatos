@@ -8,17 +8,16 @@ package Operations;
 public class FunctionProcess implements IOperationsfile{
 	private String Type;
 	private String result;
-	
+
 	@Override
 	public String getType() {
-		return this.Type;
+		return Type;
 	}
-	
+
 	@Override
 	public String getResult() {
-		return this.result;
+		return result;
 	}
-	
 	@Override
 	public String maketheoperations() {
 		return "El resultado de la función dada es " + Type + " es: " + result;

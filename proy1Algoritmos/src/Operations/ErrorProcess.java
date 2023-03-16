@@ -1,14 +1,8 @@
-/**
- * contenedor de operaciones aritmeticas
- *
- *@author Eunice Mata,Samantha Bhor
- */
 package Operations;
 
-public class QuoteProcess implements IOperationsfile{
+public class ErrorProcess implements IOperationsfile{
 	private String Type;
 	private String result;
-
 	@Override
 	public String getType() {
 		return Type;
@@ -20,13 +14,13 @@ public class QuoteProcess implements IOperationsfile{
 	}
 	@Override
 	public String maketheoperations() {
-		return "El resultado de operación es " + Type + " es: " + result;
-
+		return "Attention\n"+Type+"ERROR: "+result;
 	}
-	
+
 	@Override
 	public void Results(String Type, String result) {
 		this.Type = Type;
-		this.result = result;
+		this.result = result;		
 	}
+
 }

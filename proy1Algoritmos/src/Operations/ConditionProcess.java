@@ -9,17 +9,15 @@ public class ConditionProcess implements IOperationsfile{
 		private String Type;
 		private String result;
 		
-		///
-		
 		@Override
 		public String getType() {
-			return this.Type;
+			return Type;
 		}
+
 		@Override
 		public String getResult() {
-			return this.result;
+			return result;
 		}
-		
 		@Override
 		public String maketheoperations() {
 			return "El resultado de la condicion dada es " + Type + " es: " + result;

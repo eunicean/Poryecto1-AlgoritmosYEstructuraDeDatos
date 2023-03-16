@@ -11,14 +11,13 @@ public class DefunProcess implements IOperationsfile{
 	
 	@Override
 	public String getType() {
-		return this.Type;
+		return Type;
 	}
-	
+
 	@Override
 	public String getResult() {
-		return this.result;
+		return result;
 	}
-	
 	@Override
 	public String maketheoperations() {
 		return "La función dada" + Type + " se da con el valor : " + result;
