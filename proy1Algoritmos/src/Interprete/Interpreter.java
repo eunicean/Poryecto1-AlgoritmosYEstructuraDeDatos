@@ -239,17 +239,20 @@ public class Interpreter {
 		    		
 		    		total = Integer.parseInt(matcher.group().trim());
 		    		
-		    	}else if(matcherVar.lookingAt()) {
+		    	}
+		    	else if(matcherVar.lookingAt()) {
 		    		if(Variables.containsKey(matcher.group())){
 			    		int valor = Variables.get(matcher.group());
 			    		total = valor;
-			    	}else {
+			    	}
+		    		else {
 			    		IOperationsfile error = new ErrorProcess();
 			    		error.Results("VARIABLE", "Invalid variable");
 						return error;
 			    	}
 		    	}
-	    	}else {	    		
+	    	}
+	    	else {	    		
 	    		Matcher matcherNum = patternNumber.matcher(matcher.group().trim());
 		    	Matcher matcherVar = patternVariable.matcher(matcher.group().trim());
 		    	
@@ -257,11 +260,13 @@ public class Interpreter {
 		    		
 		    		total = total / Integer.parseInt(matcher.group().trim());
 		    		
-		    	}else if(matcherVar.lookingAt()) {
+		    	}
+		    	else if(matcherVar.lookingAt()) {
 		    		if(Variables.containsKey(matcher.group())){
 			    		int valor = Variables.get(matcher.group());
 			    		total = total / valor;
-			    	}else {
+			    	}
+		    		else {
 			    		IOperationsfile error = new ErrorProcess();
 			    		error.Results("VARIABLE", "Invalid variable");
 						return error;
@@ -275,17 +280,72 @@ public class Interpreter {
 		result.Results("Division", String.valueOf(total));
 	    return result;
 	}
-	
+	/**
+	 * Method that assigns the process for variable assignment
+	 * @param code String with the code that contains the variable and the value of the varible
+	 * @return object type IOperationsfile that has the information of the process
+	 */
 	public IOperationsfile variableAssignmentProcess(String code) {
-		return null;
+		Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(code);
+	    String variableName = "";
+	    Integer variableValue = 0;
+	    
+	    if (matcher.find()) {
+	    	variableName = matcher.group().trim();
+	    }
+	    pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
+	    matcher = pattern.matcher(code);
+	    if (matcher.find()) {
+	    	variableValue = Integer.parseInt(matcher.group().trim());
+	    }
+	    
+	    Variables.put(variableName, variableValue);//inserting the variable to the map for variables
+	    IOperationsfile result = new AssigmentProcess();
+		result.Results(variableName, String.valueOf(variableValue));
+	    return result;
 	}
 	
 	public IOperationsfile equalProcessAssignment(String code) {
-		return null;
+		int firstVariable = 0,secondVariable = 0, counter = 1;
+		String r = "";
+		Pattern pattern =  Pattern.compile("([0-9]+)",Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(code);
+		
+		while(matcher.find()) {
+			if(counter == 1) {	    		
+	    		firstVariable = Integer.parseInt(matcher.group().trim());
+	    	}
+			else {
+	    		secondVariable = Integer.parseInt(matcher.group().trim());
+	    	}
+	    	counter ++;
+		}
+		
+		if(firstVariable == secondVariable) {
+	    	r = "True";
+	    }
+		else {
+	    	r = "NIL";
+	    }
+		
+		IOperationsfile result = new PredicatesProcess();
+		result.Results("Equal", r);
+		return result;
 	}
 	
 	public IOperationsfile greaterThanAssignmentProcess(String code) {
-		return null;
+		int firstVariable = 0,secondVariable = 0, counter = 1;
+		String r = "";
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(code);
+		
+		
+		IOperationsfile result = new PredicatesProcess();
+		result.Results("Equal", r);
+		return result;
 	}
 	public IOperationsfile lesserThanAssignmentProcess(String code) {
 		return null;
