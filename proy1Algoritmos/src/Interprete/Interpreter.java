@@ -10,8 +10,7 @@
 package Interprete;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import Operations.*;
 
@@ -28,9 +27,10 @@ public class Interpreter {
 	public String RunCode(String code) {
 		int codeToken = Token.getToken(code);
 		switch (codeToken) {
+		case 0:
+			return additionProcessAssignment(code).maketheoperations();
 		case 1:
-			
-			break;
+			return substractionProcessAssignment(code).maketheoperations();
 		case 2:
 			
 			break;
@@ -73,10 +73,6 @@ public class Interpreter {
 		case 15:
 			
 			break;
-		case 16:
-			
-			break;
-
 		default:
 			break;
 		}
@@ -104,25 +100,27 @@ public class Interpreter {
 	    		
 	    		total += Integer.parseInt(matcher.group().trim());
 	    		
-	    	}else if(matcherVar.lookingAt()) {
+	    	}
+	    	else if(matcherVar.lookingAt()) {
 	    		if(Variables.containsKey(matcher.group())){
 		    		int valor = Variables.get(matcher.group());
 		    		total += valor;
-		    	}else {
+		    	}
+	    		else {
 		    		ErrorProcess error = new ErrorProcess();
-					error.Results("VARIABLE ERROR", "Invalid variable");
+					error.Results("VARIABLE", "Invalid variable");
 					return error;
 		    	}
 	    	}
 	    }
 		
 		IOperationsfile result = new ArithmeticProcess();
-		result.Results("suma", String.valueOf(total));
+		result.Results("Suma", String.valueOf(total));
 	    return result;
 	}
 	/**
-	 * Method that assigns the process of substraction
-	 * @param code String with the code that contains the numbers or variables to do the substraction
+	 * Method that assigns the process of subtraction
+	 * @param code String with the code that contains the numbers or variables to do the subtraction
 	 * @return object type IOperationsfile that has the information of the process
 	 */
 	public IOperationsfile substractionProcessAssignment(String code) {
@@ -141,13 +139,113 @@ public class Interpreter {
 		    		
 		    		total = Integer.parseInt(matcher.group().trim());
 		    		
+		    	}
+		    	else if(matcherVar.lookingAt()) {
+		    		if(Variables.containsKey(matcher.group())){
+			    		int valor = Variables.get(matcher.group());
+			    		total = valor;
+			    	}
+		    		else {
+		    			IOperationsfile error = new ErrorProcess();
+			    		error.Results("VARIABLE", "Invalid variable");
+						return error;
+			    	}
+		    	}
+	    	}
+	    	else {	    		
+	    		Matcher matcherNum = patternNumber.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVariable.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total -= Integer.parseInt(matcher.group().trim());
+		    		
+		    	}
+		    	else if(matcherVar.lookingAt()) {
+		    		if(Variables.containsKey(matcher.group())){
+			    		int valor = Variables.get(matcher.group());
+			    		total -= valor;
+			    	}
+		    		else {
+		    			IOperationsfile error = new ErrorProcess();
+			    		error.Results("VARIABLE", "Invalid variable");
+						return error;
+			    	}
+		    	}
+	    	}
+	    	counter ++;
+	    }
+		IOperationsfile result = new ArithmeticProcess();
+		result.Results("Resta", String.valueOf(total));
+	    return result;
+	}
+	
+	/**
+	 * Method that assigns the process of multiplication
+	 * @param code String with the code that contains the numbers or variables to do the multiplication
+	 * @return object type IOperationsfile that has the information of the process
+	 */
+	public IOperationsfile multiplicationProcessAssignment(String code) {
+		int total = 1;
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternNumber = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVariable = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(code);
+		
+		while (matcher.find()) {
+	    	Matcher matcherNum = patternNumber.matcher(matcher.group().trim());
+	    	Matcher matcherVar = patternVariable.matcher(matcher.group().trim());
+	    	
+	    	if(matcherNum.lookingAt()) {
+	    		
+	    		total = total * Integer.parseInt(matcher.group().trim());
+	    		
+	    	}
+	    	else if(matcherVar.lookingAt()) {
+	    		if(Variables.containsKey(matcher.group())){
+		    		int valor = Variables.get(matcher.group());
+		    		total = total * valor;
+		    	}
+	    		else {
+	    			IOperationsfile error = new ErrorProcess();
+		    		error.Results("VARIABLE", "Invalid variable");
+					return error;
+		    	}
+	    	}
+	    }
+		IOperationsfile result = new ArithmeticProcess();
+		result.Results("Multiplicacion", String.valueOf(total));
+	    return result;
+	}
+	
+	/**
+	 * Method that assigns the process of division
+	 * @param code String with the code that contains the numbers or variables to do the division
+	 * @return object type IOperationsfile that has the information of the process
+	 */
+	public IOperationsfile divitionProcessAssignment(String code) {
+		int total = 1, counter = 0;
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternNumber = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVariable = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(code);
+		
+		while (matcher.find()) {
+	    	if (counter == 0) {
+	    		Matcher matcherNum = patternNumber.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVariable.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total = Integer.parseInt(matcher.group().trim());
+		    		
 		    	}else if(matcherVar.lookingAt()) {
 		    		if(Variables.containsKey(matcher.group())){
 			    		int valor = Variables.get(matcher.group());
 			    		total = valor;
 			    	}else {
-			    		ErrorProcess error = new ErrorProcess();
-			    		error.Results("VARIABLE ERROR", "Variable invalida.");
+			    		IOperationsfile error = new ErrorProcess();
+			    		error.Results("VARIABLE", "Invalid variable");
 						return error;
 			    	}
 		    	}
@@ -157,32 +255,25 @@ public class Interpreter {
 		    	
 		    	if(matcherNum.lookingAt()) {
 		    		
-		    		total -= Integer.parseInt(matcher.group().trim());
+		    		total = total / Integer.parseInt(matcher.group().trim());
 		    		
 		    	}else if(matcherVar.lookingAt()) {
 		    		if(Variables.containsKey(matcher.group())){
 			    		int valor = Variables.get(matcher.group());
-			    		total -= valor;
+			    		total = total / valor;
 			    	}else {
-			    		ErrorProcess errorResult = new ErrorProcess();
-						errorResult.Results("VARIABLE ERROR", "Variable invalida.");
-						return errorResult;
+			    		IOperationsfile error = new ErrorProcess();
+			    		error.Results("VARIABLE", "Invalid variable");
+						return error;
 			    	}
 		    	}
 	    	}
 	    	counter ++;
 	    }
+
 		IOperationsfile result = new ArithmeticProcess();
-		result.Results("suma", String.valueOf(total));
+		result.Results("Division", String.valueOf(total));
 	    return result;
-	}
-	
-	public IOperationsfile multiplicationProcessAssignment(String code) {
-		return null;
-	}
-	
-	public IOperationsfile divitionProcessAssignment(String code) {
-		return null;
 	}
 	
 	public IOperationsfile variableAssignmentProcess(String code) {
